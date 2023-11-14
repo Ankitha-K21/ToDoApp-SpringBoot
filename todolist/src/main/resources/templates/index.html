@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDoList-home</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}"/>
+
+    <style>
+        .strikethrough {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>ToDo App</h1>
+    <hr />
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h2>Task List</h2>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline float-right">
+                <label class="mr-2">Filter tasks:</label>
+
+                <a class="btn btn-secondary" href="/filterByDue">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                    <i class="bi bi-filter"></i> Due Date</a>
+                <a class="btn btn-secondary" href="/filterByStatus">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                    <i class="bi bi-filter"></i> Completion status</a>
+           </form>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due on</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr th:each="item : ${todo}" th:class="${item.status} ? 'strikethrough' : ''">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.title}"></td>
+            <td th:text="${item.description}"></td>
+            <td th:text="${item.dueDate}"></td>
+            <td>
+                <span th:if="${item.status} == true" th:text="Yes"></span>
+                <span th:unless="${item.status} == true" th:text="No"></span>
+            </td>
+            <td>
+            <div class="btn btn-group-sm" role="group">
+                <a class="btn btn-success" th:href="@{/completed/{id}(id=${item.id})}">
+                    <i class="bi bi-pencil-fill"></i> Completed?</a>
+                <a class="btn btn-danger" th:href="@{/delete/{id}(id=${item.id})}">
+                    <i class="bi bi-trash-fill"></i> Delete</a>
+            </div>
+        </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p><a class="btn btn-outline-success" href="/create-todo">
+        <i class="bi bi-plus-square-fill"></i> Create a Todo</a>
+    </p>
+</div>
+<script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+</body>
+</html>
